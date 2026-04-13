@@ -1,0 +1,75 @@
+@model PromocionViewModel
+@{
+    ViewData["Title"] = "Editar Promoción";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-pencil me-2"></i>Editar Promoción</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Codigo" class="form-label"></label>
+                        <input asp-for="Codigo" class="form-control text-uppercase" />
+                        <span asp-validation-for="Codigo" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="TipoDescuento" class="form-label"></label>
+                            <select asp-for="TipoDescuento" class="form-select"
+                                    asp-items="Html.GetEnumSelectList<TipoDescuento>()"></select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ValorDescuento" class="form-label"></label>
+                            <input asp-for="ValorDescuento" class="form-control" step="0.01" />
+                            <span asp-validation-for="ValorDescuento" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FechaInicio" class="form-label"></label>
+                            <input asp-for="FechaInicio" class="form-control" type="date" />
+                            <span asp-validation-for="FechaInicio" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FechaFin" class="form-label"></label>
+                            <input asp-for="FechaFin" class="form-control" type="date" />
+                            <span asp-validation-for="FechaFin" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input asp-for="EstaActiva" class="form-check-input" />
+                        <label asp-for="EstaActiva" class="form-check-label"></label>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-save me-1"></i>Guardar cambios
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

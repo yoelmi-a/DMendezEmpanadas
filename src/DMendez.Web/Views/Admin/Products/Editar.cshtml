@@ -1,0 +1,90 @@
+@model ProductoViewModel
+@{
+    ViewData["Title"] = "Editar Producto";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-pencil me-2"></i>Editar Producto</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Descripcion" class="form-label"></label>
+                        <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Precio" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">RD$</span>
+                                <input asp-for="Precio" class="form-control" step="0.01" />
+                            </div>
+                            <span asp-validation-for="Precio" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Categoria" class="form-label"></label>
+                            <select asp-for="Categoria" class="form-select"
+                                    asp-items="Html.GetEnumSelectList<CategoriaProducto>()"></select>
+                            <span asp-validation-for="Categoria" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input asp-for="EstaDisponible" class="form-check-input" />
+                                <label asp-for="EstaDisponible" class="form-check-label"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input asp-for="EsCombo" class="form-check-input" id="esComboCheck" />
+                                <label asp-for="EsCombo" class="form-check-label"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3" id="campoCombo">
+                        <label asp-for="ComponentesCombo" class="form-label"></label>
+                        <textarea asp-for="ComponentesCombo" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="ComponentesCombo" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-save me-1"></i>Guardar cambios
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const check = document.getElementById('esComboCheck');
+        const campo = document.getElementById('campoCombo');
+        function toggleCombo() { campo.style.display = check.checked ? 'block' : 'none'; }
+        check.addEventListener('change', toggleCombo);
+        toggleCombo();
+    </script>
+}

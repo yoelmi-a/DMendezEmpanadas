@@ -1,0 +1,77 @@
+@model IEnumerable<ResumenPedidoViewModel>
+@{
+    ViewData["Title"] = "Gestión de Pedidos";
+    string? estadoFiltro = ViewBag.EstadoFiltro as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-bag-check me-2"></i>Pedidos</h2>
+</div>
+
+{{-- Filtros --}}
+<div class="mb-4 d-flex flex-wrap gap-2">
+    <a asp-action="Index" class="btn btn-sm @(estadoFiltro == null ? "btn-danger" : "btn-outline-secondary")">
+        Todos
+    </a>
+    @foreach (var estado in new[] { "Recibido","EnPreparacion","EnCamino","Entregado","Cancelado" })
+    {
+        <a asp-action="Index" asp-route-estado="@estado"
+           class="btn btn-sm @(estadoFiltro == estado ? "btn-danger" : "btn-outline-secondary")">
+            @estado
+        </a>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No hay pedidos con este filtro.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Fecha</th>
+                    <th>Ítems</th>
+                    <th>Entrega</th>
+                    <th>Estado</th>
+                    <th class="text-end">Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td><strong>@p.Id</strong></td>
+                        <td>@p.CreadoEn.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@p.CantidadItems</td>
+                        <td>@(p.MetodoEntrega == MetodoEntrega.Recogida ? "Recogida" : "Domicilio")</td>
+                        <td><span class="badge @BadgePorEstado(p.Estado)">@p.Estado</span></td>
+                        <td class="text-end fw-bold">RD$ @p.Total.ToString("N2")</td>
+                        <td>
+                            <a asp-action="Detalle" asp-route-id="@p.Id"
+                               class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@functions {
+    string BadgePorEstado(string estado) => estado switch
+    {
+        "Recibido"      => "bg-primary",
+        "EnPreparacion" => "bg-warning text-dark",
+        "EnCamino"      => "bg-info text-dark",
+        "Entregado"     => "bg-success",
+        "Cancelado"     => "bg-secondary",
+        _               => "bg-light text-dark"
+    };
+}

@@ -1,0 +1,91 @@
+@model IEnumerable<Producto>
+@{
+    ViewData["Title"] = "Menú";
+    CategoriaProducto? categoriaActiva = ViewBag.CategoriaActiva;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-grid me-2"></i>Nuestro Menú</h2>
+</div>
+
+{{-- Filtros de categoría --}}
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+        <a class="nav-link @(categoriaActiva == null ? "active bg-danger" : "")"
+           asp-action="Index">Todos</a>
+    </li>
+    @foreach (CategoriaProducto cat in Enum.GetValues<CategoriaProducto>())
+    {
+        <li class="nav-item">
+            <a class="nav-link @(categoriaActiva == cat ? "active bg-danger" : "")"
+               asp-action="Index" asp-route-categoria="@((int)cat)">@cat</a>
+        </li>
+    }
+</ul>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>No hay productos disponibles en esta categoría.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var producto in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    @if (producto.EsCombo)
+                    {
+                        <div class="card-img-top bg-warning d-flex align-items-center justify-content-center"
+                             style="height:120px;">
+                            <i class="bi bi-gift text-white" style="font-size:3rem;"></i>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-danger bg-opacity-10 d-flex align-items-center justify-content-center"
+                             style="height:120px;">
+                            <i class="bi bi-egg-fried text-danger" style="font-size:3rem;"></i>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-1">@producto.Categoria</span>
+                        @if (producto.EsCombo)
+                        {
+                            <span class="badge bg-warning text-dark mb-1 ms-1">Combo</span>
+                        }
+                        <h5 class="card-title">@producto.Nombre</h5>
+                        <p class="card-text text-muted small">@producto.Descripcion</p>
+                        @if (producto.EsCombo && !string.IsNullOrEmpty(producto.ComponentesCombo))
+                        {
+                            <p class="card-text small text-info">
+                                <i class="bi bi-list-check me-1"></i>@producto.ComponentesCombo
+                            </p>
+                        }
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span class="fs-5 fw-bold text-danger">RD$ @producto.Precio.ToString("N2")</span>
+                        @if (User.Identity?.IsAuthenticated == true && !User.IsInRole(SemillaAdminPorDefecto.NombreRolAdministrador))
+                        {
+                            <form asp-controller="Carrito" asp-action="Agregar" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="idProducto" value="@producto.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-cart-plus me-1"></i>Agregar
+                                </button>
+                            </form>
+                        }
+                        else if (!User.Identity?.IsAuthenticated ?? true)
+                        {
+                            <a asp-controller="Cuenta" asp-action="Iniciar" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Inicia sesión para comprar
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

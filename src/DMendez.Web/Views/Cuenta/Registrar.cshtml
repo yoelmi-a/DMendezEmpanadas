@@ -1,0 +1,52 @@
+@model RegistroViewModel
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-person-plus me-2"></i>Crear cuenta</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Registrar" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" autocomplete="email" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" autocomplete="new-password" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmarPassword" class="form-label"></label>
+                        <input asp-for="ConfirmarPassword" class="form-control" autocomplete="new-password" />
+                        <span asp-validation-for="ConfirmarPassword" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="bi bi-person-check me-1"></i>Registrarme
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <small>¿Ya tienes cuenta?
+                    <a asp-action="Iniciar" class="text-danger">Inicia sesión aquí</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
