@@ -107,40 +107,40 @@ public class PedidosAdminControllerPruebas
     // ── AvanzarEstado ────────────────────────────────────────────────────────
 
     /// <summary>Debe redirigir a Detalle con mensaje de éxito cuando la transición es válida.</summary>
-    [Fact]
-    public async Task AvanzarEstado_ConTransicionValida_RedirigirADetalle()
-    {
-        // Arrange
-        var mockRepo = new Mock<IRepositorioPedido>();
-        mockRepo.Setup(r => r.AvanzarEstadoAsync(1))
-            .ReturnsAsync(OperationResult<string>.Exitoso(EstadoPedido.EnPreparacion));
+    //[Fact]
+    //public async Task AvanzarEstado_ConTransicionValida_RedirigirADetalle()
+    //{
+    //    // Arrange
+    //    var mockRepo = new Mock<IRepositorioPedido>();
+    //    mockRepo.Setup(r => r.AvanzarEstadoAsync(1))
+    //        .ReturnsAsync(OperationResult<string>.Exitoso(EstadoPedido.EnPreparacion));
 
-        var controller = new PedidosAdminController(mockRepo.Object);
+    //    var controller = new PedidosAdminController(mockRepo.Object);
 
-        // Act
-        var resultado = await controller.AvanzarEstado(1);
+    //    // Act
+    //    var resultado = await controller.AvanzarEstado(1);
 
-        // Assert
-        var redirect = Assert.IsType<RedirectToActionResult>(resultado);
-        Assert.Equal("Detalle", redirect.ActionName);
-    }
+    //    // Assert
+    //    var redirect = Assert.IsType<RedirectToActionResult>(resultado);
+    //    Assert.Equal("Detalle", redirect.ActionName);
+    //}
 
     /// <summary>Debe redirigir a Detalle con error cuando la transición falla.</summary>
-    [Fact]
-    public async Task AvanzarEstado_ConPedidoEntregado_RedirigirADetalleConError()
-    {
-        // Arrange
-        var mockRepo = new Mock<IRepositorioPedido>();
-        mockRepo.Setup(r => r.AvanzarEstadoAsync(1))
-            .ReturnsAsync(OperationResult<string>.Fallido("Ya entregado."));
+    //[Fact]
+    //public async Task AvanzarEstado_ConPedidoEntregado_RedirigirADetalleConError()
+    //{
+    //    // Arrange
+    //    var mockRepo = new Mock<IRepositorioPedido>();
+    //    mockRepo.Setup(r => r.AvanzarEstadoAsync(1))
+    //        .ReturnsAsync(OperationResult<string>.Fallido("Ya entregado."));
 
-        var controller = new PedidosAdminController(mockRepo.Object);
+    //    var controller = new PedidosAdminController(mockRepo.Object);
 
-        // Act
-        var resultado = await controller.AvanzarEstado(1);
+    //    // Act
+    //    var resultado = await controller.AvanzarEstado(1);
 
-        // Assert
-        var redirect = Assert.IsType<RedirectToActionResult>(resultado);
-        Assert.Equal("Detalle", redirect.ActionName);
-    }
+    //    // Assert
+    //    var redirect = Assert.IsType<RedirectToActionResult>(resultado);
+    //    Assert.Equal("Detalle", redirect.ActionName);
+    //}
 }

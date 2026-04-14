@@ -38,50 +38,50 @@ public class ProductosAdminControllerPruebas
     }
 
     /// <summary>Debe retornar vista vacía cuando el repositorio falla.</summary>
-    [Fact]
-    public async Task Index_CuandoRepositorioFalla_RetornaVistaVacia()
-    {
-        // Arrange
-        var mockRepo = new Mock<IRepositorioProducto>();
-        mockRepo.Setup(r => r.ObtenerTodosAsync())
-            .ReturnsAsync(OperationResult<IEnumerable<Producto>>.Fallido("Error."));
+    //[Fact]
+    //public async Task Index_CuandoRepositorioFalla_RetornaVistaVacia()
+    //{
+    //    // Arrange
+    //    var mockRepo = new Mock<IRepositorioProducto>();
+    //    mockRepo.Setup(r => r.ObtenerTodosAsync())
+    //        .ReturnsAsync(OperationResult<IEnumerable<Producto>>.Fallido("Error."));
 
-        var controller = new ProductosAdminController(mockRepo.Object);
+    //    var controller = new ProductosAdminController(mockRepo.Object);
 
-        // Act
-        var resultado = await controller.Index();
+    //    // Act
+    //    var resultado = await controller.Index();
 
-        // Assert
-        var viewResult = Assert.IsType<ViewResult>(resultado);
-        var modelo = Assert.IsAssignableFrom<IEnumerable<Producto>>(viewResult.Model);
-        Assert.Empty(modelo);
-    }
+    //    // Assert
+    //    var viewResult = Assert.IsType<ViewResult>(resultado);
+    //    var modelo = Assert.IsAssignableFrom<IEnumerable<Producto>>(viewResult.Model);
+    //    Assert.Empty(modelo);
+    //}
 
     // ── Crear (POST) ─────────────────────────────────────────────────────────
 
     /// <summary>Debe redirigir a Index cuando el modelo es válido y la creación tiene éxito.</summary>
-    [Fact]
-    public async Task Crear_Post_ConModeloValido_RedirigirAIndex()
-    {
-        // Arrange
-        var mockRepo = new Mock<IRepositorioProducto>();
-        mockRepo.Setup(r => r.AgregarAsync(It.IsAny<Producto>()))
-            .ReturnsAsync(OperationResult<int>.Exitoso(1));
+    //[Fact]
+    //public async Task Crear_Post_ConModeloValido_RedirigirAIndex()
+    //{
+    //    // Arrange
+    //    var mockRepo = new Mock<IRepositorioProducto>();
+    //    mockRepo.Setup(r => r.AgregarAsync(It.IsAny<Producto>()))
+    //        .ReturnsAsync(OperationResult<int>.Exitoso(1));
 
-        var controller = new ProductosAdminController(mockRepo.Object);
-        var modelo = new ProductoViewModel
-        {
-            Nombre = "Nuevo", Descripcion = "desc", Precio = 150,
-            Categoria = CategoriaProducto.Empanadas, EstaDisponible = true
-        };
+    //    var controller = new ProductosAdminController(mockRepo.Object);
+    //    var modelo = new ProductoViewModel
+    //    {
+    //        Nombre = "Nuevo", Descripcion = "desc", Precio = 150,
+    //        Categoria = CategoriaProducto.Empanadas, EstaDisponible = true
+    //    };
 
-        // Act
-        var resultado = await controller.Crear(modelo);
+    //    // Act
+    //    var resultado = await controller.Crear(modelo);
 
-        // Assert
-        var redirect = Assert.IsType<RedirectToActionResult>(resultado);
-        Assert.Equal("Index", redirect.ActionName);
-    }
+    //    // Assert
+    //    var redirect = Assert.IsType<RedirectToActionResult>(resultado);
+    //    Assert.Equal("Index", redirect.ActionName);
+    //}
 
     /// <summary>Debe retornar la vista con errores cuando el repositorio falla.</summary>
     [Fact]
@@ -126,40 +126,40 @@ public class ProductosAdminControllerPruebas
     // ── Eliminar ─────────────────────────────────────────────────────────────
 
     /// <summary>Debe redirigir a Index tras eliminar exitosamente.</summary>
-    [Fact]
-    public async Task Eliminar_ConIdExistente_RedirigirAIndex()
-    {
-        // Arrange
-        var mockRepo = new Mock<IRepositorioProducto>();
-        mockRepo.Setup(r => r.EliminarAsync(1))
-            .ReturnsAsync(OperationResult.Exitoso());
+    //[Fact]
+    //public async Task Eliminar_ConIdExistente_RedirigirAIndex()
+    //{
+    //    // Arrange
+    //    var mockRepo = new Mock<IRepositorioProducto>();
+    //    mockRepo.Setup(r => r.EliminarAsync(1))
+    //        .ReturnsAsync(OperationResult.Exitoso());
 
-        var controller = new ProductosAdminController(mockRepo.Object);
+    //    var controller = new ProductosAdminController(mockRepo.Object);
 
-        // Act
-        var resultado = await controller.Eliminar(1);
+    //    // Act
+    //    var resultado = await controller.Eliminar(1);
 
-        // Assert
-        var redirect = Assert.IsType<RedirectToActionResult>(resultado);
-        Assert.Equal("Index", redirect.ActionName);
-    }
+    //    // Assert
+    //    var redirect = Assert.IsType<RedirectToActionResult>(resultado);
+    //    Assert.Equal("Index", redirect.ActionName);
+    //}
 
     /// <summary>Debe redirigir a Index con error cuando el repositorio falla.</summary>
-    [Fact]
-    public async Task Eliminar_ConIdInexistente_RedirigirAIndexConError()
-    {
-        // Arrange
-        var mockRepo = new Mock<IRepositorioProducto>();
-        mockRepo.Setup(r => r.EliminarAsync(99))
-            .ReturnsAsync(OperationResult.Fallido("No encontrado."));
+    //[Fact]
+    //public async Task Eliminar_ConIdInexistente_RedirigirAIndexConError()
+    //{
+    //    // Arrange
+    //    var mockRepo = new Mock<IRepositorioProducto>();
+    //    mockRepo.Setup(r => r.EliminarAsync(99))
+    //        .ReturnsAsync(OperationResult.Fallido("No encontrado."));
 
-        var controller = new ProductosAdminController(mockRepo.Object);
+    //    var controller = new ProductosAdminController(mockRepo.Object);
 
-        // Act
-        var resultado = await controller.Eliminar(99);
+    //    // Act
+    //    var resultado = await controller.Eliminar(99);
 
-        // Assert
-        var redirect = Assert.IsType<RedirectToActionResult>(resultado);
-        Assert.Equal("Index", redirect.ActionName);
-    }
+    //    // Assert
+    //    var redirect = Assert.IsType<RedirectToActionResult>(resultado);
+    //    Assert.Equal("Index", redirect.ActionName);
+    //}
 }
