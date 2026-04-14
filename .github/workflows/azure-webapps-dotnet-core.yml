@@ -56,9 +56,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Publish Web Project
-        run: dotnet publish ./src/DMendez.Web/DMendez.Web.csproj \
-          --configuration Release \
-          --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
+        run: dotnet publish ./src/DMendez.Web/DMendez.Web.csproj --configuration Release --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
