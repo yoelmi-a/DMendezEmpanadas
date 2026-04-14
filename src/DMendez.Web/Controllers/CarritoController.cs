@@ -18,7 +18,7 @@ public class CarritoController : Controller
     {
         _repositorioProducto = repositorioProducto;
     }
-
+//si//
     /// <summary>Muestra el contenido actual del carrito.</summary>
     /// <returns>Vista del carrito con sus ítems y totales.</returns>
     [HttpGet]
