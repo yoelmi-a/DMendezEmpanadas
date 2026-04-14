@@ -15,7 +15,7 @@ public class CatalogoController : Controller
     {
         _repositorioProducto = repositorioProducto;
     }
-
+//no
     /// <summary>Muestra el catálogo completo de productos disponibles.</summary>
     /// <param name="categoria">Categoría opcional para filtrar productos.</param>
     /// <returns>Vista del catálogo con los productos disponibles.</returns>
