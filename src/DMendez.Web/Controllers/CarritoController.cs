@@ -25,8 +25,7 @@ public class CarritoController : Controller
     public async Task<IActionResult> Index()
     {
         var carrito = GestorCarritoSesion.ObtenerCarrito(HttpContext.Session);
-
-        // Validar disponibilidad de cada ítem en el carrito
+        //Validar disponibilidad de cada ítem en el carrito....
         foreach (var item in carrito.Items)
         {
             var resultado = await _repositorioProducto.ObtenerPorIdAsync(item.IdProducto);
