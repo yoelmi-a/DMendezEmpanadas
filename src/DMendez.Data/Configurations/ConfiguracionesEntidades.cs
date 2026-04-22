@@ -1,7 +1,7 @@
 using DMendez.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+// test
 namespace DMendez.Data.Configurations;
 
 /// <summary>Configuración de la entidad Producto para EF Core.</summary>
