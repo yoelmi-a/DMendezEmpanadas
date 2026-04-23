@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DMendez.Data.Context;
-
+// test
 /// <summary>Contexto de base de datos principal de la aplicación D' Méndez Empanadas.</summary>
 public class AppDbContext : IdentityDbContext<IdentityUser>
 {
